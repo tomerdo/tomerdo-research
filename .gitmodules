@@ -1,3 +1,6 @@
 [submodule "spp-research/pystan"]
 	path = spp-research/pystan
 	url = https://github.com/tomerdo/probabilistic-programming
+[submodule "spp-research/webppl"]
+	path = spp-research/webppl
+	url = https://github.com/tomerdo/spp-webppl
