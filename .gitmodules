@@ -4,3 +4,6 @@
 [submodule "spp-research/webppl"]
 	path = spp-research/webppl
 	url = https://github.com/tomerdo/spp-webppl
+[submodule "spp-research/infergo"]
+	path = spp-research/infergo
+	url = https://bitbucket.org/dtolpin/spp-studies
