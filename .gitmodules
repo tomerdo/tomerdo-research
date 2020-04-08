@@ -1,0 +1,3 @@
+[submodule "spp-research/pystan"]
+	path = spp-research/pystan
+	url = https://github.com/tomerdo/probabilistic-programming
