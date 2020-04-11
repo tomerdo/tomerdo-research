@@ -8,6 +8,36 @@
 \maketitle
 \section{Introduction}
  In this article i will try to solve with a geneartive model that describes the world of Poker (Texas Holdm)  agent, each step the agent will need to choose the optimal move (given the cards) in way that maximize the expectation value of winning  ,due the fact the world is described by generative model , we could point why the agent decdied to play with a particular move, from this implementation we could maybe genralize to the world of decision support system (dss) when proffesionals need to take decision and make actions about the world when there are some hidden information, neural networks approach as a disadvantage because the proffesional can't say why a specific action is the optimal.
+\section{Draft and directions}
+\subsection{Modeling the world}
+my hand will be model with variable $mh={mh_1 , mh_2}$ and the distirbution of each card is $mh_i \sim U(1,52)$\\
+we can think how we will model the target , the rank of the hands , the update of the state, the money factor, maybe will talk about mdp.\\
+the baysian model is what the distribution to get P(HandStrength=X | all the visible card) and maybe maximize the expectation of this as regards to other hands.\\
+the hands and the probality to get them, the rankings and probalities !add table!
+
+\subsection{Stages}
+the game is compunded by some discrete stages (simplify our problem):\\
+the hole cards - \\
+the flop - \\
+the turn - \\
+the river - \\
+in each stage the marganilization over the cards is decreasing and in end there is only the the evaluation stage
+\subsection{Goal}
+from wikipedia - The objective of winning players is not to win every individual hand, but rather to make mathematically and psychologically better decisions regarding when and how much to bet, raise, call or fold. Winning poker players work to enhance their opponents' betting and maximize their own expected gain on each round of betting, to thereby increase their long-term winnings
+\subsection{Success Measuring}
+\begin{enumerate}
+\item expectation of winning with strategy S
+\item simplicity of the model
+\end{enumerate}
+\subsection{generalalizations}
+AI that can "explain" it steps
+\subsection{Branches and Studies}
+\begin{enumerate}
+  \item AI - mdp , baysian analysis , ML? , games and search
+   \item Game Theory - Nash equilibrium
+   \item Statistics
+   \item  Texas Holdm game
+\end{enumerate}
 \section{Model}
 will introduce number notations and probablility distirbutions
 \section{Implemetation}
@@ -16,6 +46,7 @@ the implemenatation framework is
 the quality of the output of the agent
 \section{Summery}
 \section{Related Work}
+Cepheus   - university of alberta -  Computer Poker Research Group (CPRG) (2015) - "Heads-up limit hold’em poker is solved" - 0.000986 big blinds per game \\
 DeepStack - working with deeplearning.
 there is none genearive models that i find that try to solve it
 \section{Discussion}
