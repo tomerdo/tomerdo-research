@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{float}
 
 \title{Comparison between languages regarding to SPP}
 \author{Tomer Dobkin}
@@ -9,11 +10,77 @@
 \section{Introduction}
 in this article i will write a review on performance of diffrenet programing languages that used for probabilistic programming , regarding to how they handle models with stochastic structure, expanding of the idea that introduced in https://arxiv.org/abs/2003.00704
 \section{Implementation}
-the code and link to github
+the code and link to github , all the implementations are linked to the repo
 \section{Results}
-a table that decribes that comparison of results
+\subsection{Survey}
+\begin{table}[H]
+\centering
+\begin{tabular}{||c c c c c||} 
+ \hline
+ implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ \hline\hline
+ Stan - Generative & no & --- &  ---  & yes \\ 
+ Stan - Marganilization & yes & TODO & TODO & no\\
+ WebPPL - Generative & yes & TODO & TODO & yes\\
+ WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
+ Webppl - Stochastic & TODO & TODO & TODO & TODO\\
+ Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
+ Infergo - Marganilization & yes & TODO-take from article &TODO-t.f.a & no\\
+ Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ \hline
+\end{tabular}
+\caption{survey model results}
+\label{table:1}
+\end{table}
+\subsection{GMM}
+\begin{table}[H]
+\centering
+\begin{tabular}{||c c c c c||} 
+ \hline
+ implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ \hline\hline
+ Stan - Generative & no & --- &  ---  & yes \\ 
+ Stan - Marganilization & yes & TODO & TODO & no\\
+ WebPPL - Generative & yes & TODO & TODO & yes\\
+ WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
+ Webppl - Stochastic & TODO & TODO & TODO & TODO\\
+ Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
+ Infergo - Marganilization & yes & TODO-take from article & TODO-t.f.a & no\\
+ Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ \hline
+\end{tabular}
+\caption{gmm model results}
+\label{table:2}
+\end{table}
+\subsection{HMM}
+\begin{table}[H]
+\centering
+\begin{tabular}{||c c c c c||} 
+ \hline
+ implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ \hline\hline
+ Stan - Generative & no & --- &  ---  & yes \\ 
+ Stan - Marganilization & yes & TODO & TODO & no\\
+ WebPPL - Generative & yes & TODO & TODO & yes\\
+ WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
+ Webppl - Stochastic & TODO & TODO & TODO & TODO\\
+ Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
+ Infergo - Marganilization & yes & TODO-take from article & TODO-t.f.a & no\\
+ Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ \hline
+\end{tabular}
+\caption{hmm model results}
+\label{table:3}
+\end{table}
+%\subsection{LDA}
 \section{Summery}
-the improvment of the algorithms
+summery of the results , about each implementation , which way is the most efficient
 \section{Discussion}
-add references
+\section{Reference}
+\begin{enumerate}
+\item 
+Stochastically Differentiable Probabilistic Programs - arXiv:2003.00704
+\item 
+Probabilistic Programming with Densities in SlicStan: Efficient, Flexible and Deterministic -  arXiv:1811.00890
+\end{enumerate}
 \end{document}
