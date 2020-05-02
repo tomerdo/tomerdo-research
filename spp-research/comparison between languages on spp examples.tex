@@ -10,23 +10,32 @@
 \section{Introduction}
 in this article i will write a review on performance of diffrenet programing languages that used for probabilistic programming , regarding to how they handle models with stochastic structure, expanding of the idea that introduced in https://arxiv.org/abs/2003.00704
 \section{Implementation}
-the code and link to github , all the implementations are linked to the repo
+we implemented number of simples models in three different ppls, the tables below describes the result on each of the frameworks.
+Stan - the most popular PPL , uses the HMC as it''s only infernce algorithm , and therfore strugle with models with the "stochastic" manner (as introduces in the articles above) \\
+WebPPL -  a universal ppl (will add a defination to it) written in JavaScripts and uses variaty of inference algorithm (as user's choise) \\
+Infergo - written with Go , introduced in the article (Deployable PPL)  more flexible then Stan, and more "Stable" then WebPPL \\
+disclaimers and further work? :\\
+1)  in our implementation with webppl the results are with two big variance.
+2) we don't have yet a way to implement eff sample size in webppl
+<add references>
+<add the models>
+<add the code>
 \section{Results}
 \subsection{Survey}
 \begin{table}[H]
 \centering
 \begin{tabular}{||c c c c c||} 
  \hline
- implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ implemetation & converging & computation time & effective ss & explantory \\ [0.5ex] 
  \hline\hline
  Stan - Generative & no & --- &  ---  & yes \\ 
- Stan - Marganilization & yes & TODO & TODO & no\\
+ Stan - Marganilization & yes & 2.07 ± 0.06 & 1095 ±247  & no\\
  WebPPL - Generative & yes & TODO & TODO & yes\\
  WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
  Webppl - Stochastic & TODO & TODO & TODO & TODO\\
- Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
- Infergo - Marganilization & yes & TODO-take from article &TODO-t.f.a & no\\
- Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ Infergo - MH + HMC & yes & 7.4 ± 0.1 & 2800 ± 300 & yes\\
+ Infergo - Marganilization & yes & 21 ± 0.5 & 5200 ± 200 & no\\
+ Infergo - Stochastic & yes & 6.5 ± 0.1 & 4600 ± 180 & yes\\ [1ex] 
  \hline
 \end{tabular}
 \caption{survey model results}
@@ -37,16 +46,16 @@ the code and link to github , all the implementations are linked to the repo
 \centering
 \begin{tabular}{||c c c c c||} 
  \hline
- implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ implemetation & converging & computation time & effective samples & explantory \\ [0.5ex] 
  \hline\hline
  Stan - Generative & no & --- &  ---  & yes \\ 
- Stan - Marganilization & yes & TODO & TODO & no\\
- WebPPL - Generative & yes & TODO & TODO & yes\\
+ Stan - Marganilization & yes & 0.213 ± 0.003 & 425±20 & no\\
+ WebPPL - Generative & sometimes & TODO & TODO & yes\\
  WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
  Webppl - Stochastic & TODO & TODO & TODO & TODO\\
- Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
- Infergo - Marganilization & yes & TODO-take from article & TODO-t.f.a & no\\
- Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ Infergo -  MH + HMC & yes & 38 ± 0.7 & 1900 ± 200 & yes\\
+ Infergo - Marganilization & yes & 95 ± 2 & 7200 ± 150 & no\\
+ Infergo - Stochastic & yes & 35 ± 0.7 & 5900 ± 240 & yes\\ [1ex] 
  \hline
 \end{tabular}
 \caption{gmm model results}
@@ -57,16 +66,16 @@ the code and link to github , all the implementations are linked to the repo
 \centering
 \begin{tabular}{||c c c c c||} 
  \hline
- implemetation & converging & converging time & effective samples & explantory \\ [0.5ex] 
+ implemetation & converging & computation time & effective samples & explantory \\ [0.5ex] 
  \hline\hline
  Stan - Generative & no & --- &  ---  & yes \\ 
- Stan - Marganilization & yes & TODO & TODO & no\\
- WebPPL - Generative & yes & TODO & TODO & yes\\
+ Stan - Marganilization & yes & 2.25 ± 0.07 & 2390 ± 203 & no\\
+ WebPPL - Generative & sometimes & TODO & TODO & yes\\
  WebPPL - Marganilization & TODO & TODO & TODO & TODO\\
  Webppl - Stochastic & TODO & TODO & TODO & TODO\\
- Infergo - Generative & yes & TODO-take from article & TODO-t.f.a & yes\\
- Infergo - Marganilization & yes & TODO-take from article & TODO-t.f.a & no\\
- Infergo - Stochastic & yes & TODO-take from article & TODO-t.f.a & yes?\\ [1ex] 
+ Infergo - MH + HMC  & yes & 10 ± 0.3 & 4800 ± 190 & yes\\
+ Infergo - Marganilization & yes & 46 ± 0.8 & 6700 ± 180 & no\\
+ Infergo - Stochastic & yes & 10 ± 0.3 & 6200 ± 280 & yes?\\ [1ex] 
  \hline
 \end{tabular}
 \caption{hmm model results}
