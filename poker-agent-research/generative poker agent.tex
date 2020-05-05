@@ -10,7 +10,7 @@
  In this article i will try to solve with a geneartive model that describes the world of Poker (Texas Holdm)  agent, each step the agent will need to choose the optimal move (given the cards) in way that maximize the expectation value of winning  ,due the fact the world is described by generative model , we could point why the agent decdied to play with a particular move, from this implementation we could maybe genralize to the world of decision support system (dss) when proffesionals need to take decision and make actions about the world when there are some hidden information, neural networks approach as a disadvantage because the proffesional can't say why a specific action is the optimal.
 \section{Draft and directions}
 \subsection{Modeling the world}
-my hand will be model with variable $mh={mh_1 , mh_2}$ and the distirbution of each card is $mh_i \sim U(1,52)$\\
+my hand will be model with variable $mh=\{mh_1 , mh_2\}$ and the distirbution of each card is $mh_i \sim U(1,52)$\\
 we can think how we will model the target , the rank of the hands , the update of the state, the money factor, maybe will talk about mdp.\\
 the baysian model is what the distribution to get P(HandStrength=X | all the visible card) and maybe maximize the expectation of this as regards to other hands.\\
 the hands and the probality to get them, the rankings and probalities !add table!
@@ -64,4 +64,5 @@ Pluribus - Facebook with Carnegie Mellon University -  "the first bot to beat hu
 GTO+ - commercial bot , among many other comercial bots \\
 there is none genearive models that i find that try to solve it
 \section{Discussion}
+Hands-On Intelligent Agents with OpenAI Gym. a boot that may be relevant
 \end{document}
