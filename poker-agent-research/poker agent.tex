@@ -42,4 +42,26 @@ the research are used of there from variaty of subjects from math and computer s
 \item Game Theory
 \end{enumerate}
 the first agent that won a human, a common comparison that is done when dealing with AI that play games (like with Chess and Deep Blue) , (TODO complete)
+
+as mentioned in Computer Poker - A review, there are several approaches to create poker agent\\
+\subsection{Knowledge Base}
+In this approach the programer encodes expert knowledge to set of "if-else" statements, the disadvantage of this approach is that it's not so hard to human \ other agent to learn the knowledge base and use it to establish winning stratagy. another disadvantage it's that in practice it is not perform very well, maybe due to the fact that it's hard to encode all the expertice.
+\subsection{Formula Base}
+similar to knowledge base , in this approch the agent will act from evalutation of heuristic function that believed to maximize the expectation.
+same disadvantes as in the knwledge base approach.
+\subsection{Simulation Driven}
+Another classical approach is to use MCMC simulation to calculate expectation of given hole and communaty cards and to play with moves that maximize this expectation.
+the disadvantage of this is the computated simulation did'nt give us usually the best move (TODO - expand and explain why).
+Due to the fact that the game is can be models by a tree , each player turn is a node and each possible move is a branch, we can use MCST to simulate the game.
+(TODO - expand more on MCST)
+\subsection{Game theoretic equilibrium solutions}
+Poker is a game played with number of players. we can look at this game as a tree of moves, with branch factor as the number of legel moves at each stage.
+If we assume that the other player play perfect game (Game theory wise) we can use search algorithm, simple min-max will not work here due to the fact
+that each play has imperfect infomartion and there is an element of change at each stage. we can try other algorithms.
+Moreover , the number of possible states is realy high so game search algorithm will strugle to find an optimum, so an approach that is tried in the past is to reduce
+the number of states by abstraction, we can see it as equivliant classes, some states of the original game will map to the sam EC in the simplified game.
+and the algorithms will run on the simplified version. (TODO expand on lossless and lossy abstraction)
+\subsection{Exploitive counter-strategies}
+a
+
 \end{document}
