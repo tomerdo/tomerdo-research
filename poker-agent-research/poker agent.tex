@@ -1,5 +1,5 @@
 \documentclass{article}
-
+\usepackage{apacite}
 \title{Poker Agent}
 \author{Tomer Dobkin}
 \date{\today}
@@ -10,7 +10,7 @@
 the game Texas Hold'm Poker is a popular game, and it is also has vast of researches that their goal is to create good computer programs that play poker, we will use the term -  poker agnets.\\
 A strong motivation to this researches is the fact that  poker models are intersting use case of AI. the use case is a game (well defined) with imperfect infomartion (about the world) and element of chance.
 \subsection{Rules}
-taken from: Computer Poker - A review.\\
+as reviewed in Computer Poker - A review \cite{review}.\\
 The game of Texas Hold’em is played in 4 stages – preflop, flop, turn and river. During the preflop all players at the
 table are dealt two hole cards, which only they can see. Before any betting takes place, two forced bets are contributed to
 the pot, i.e. the small blind and the big blind. The big blind is typically double that of the small blind. The player to the left
@@ -65,12 +65,13 @@ the number of states by abstraction, we can see it as equivliant classes, some s
 and the algorithms will run on the simplified version. (TODO expand on lossless and lossy abstraction)
 The main disadvantage of this approach is the assumption of perfect play , so in the long run because it's near-Nash equilibrium solution ,
  in practice the agent misses chances to exploit other players when they don't play perfrect strategy.
+another technique that used elaborately in DeepStack \cite{deepstack} is Counterfactual Regret Minimisation (CFR) (TODO - extand)
 \subsection{Exploitive counter-strategies}
 An intersting approach is to use exploitive counter-strategies , the understanding that to achieve Nash equilibrium solution is not realistic , our opponent can reach only near-Nash equilibrium solution, make the opponent "vulnerable" to counter-strategies, as mentioned earlier the reason we can't use expectimax is because we have hidden information (the hole card of the opponents) , but what we can do is to model the opponent and act in the expectimax algorithm as the opponent model would act.\\
 there are different way to model an opponent: \\
 \begin{enumerate}
 \item Neural Nets - (add refernce) learn a model from historical games (individual to each player) \\
-\item Bayesian model - (maybe will be the advance of the research) as we model the rules of poker we could model our belief on opponent hidden information, and could maybe deduce some information given the actions the opponent did (posterior), the algorithm can combine this posterior distribution with the visible information distribution (hole cards and community cards)  can try to optimize our moves given this distribution, could be from simulation driven approach or other approaches. this is an intersting study case because we combine the distribution of the stochastic nature of the game and the distribution of the hidden variables (opponents hole cards)\\
+\item Bayesian model - (maybe will be the advance of the research) as we model the rules of poker we could model our belief on opponent hidden information, and could maybe deduce some information given the actions the opponent did (posterior), the algorithm can combine this posterior distribution with the visible information distribution (hole cards and community cards)  can try to optimize our moves given this distribution, could be from simulation driven approach or other approaches. this is an intersting study case because we combine the distribution of the stochastic nature of the game and the distribution of the hidden variables (opponents hole cards) , maybe something like \cite{Seaman2018ProbabilisticPF}\\
 \item other ways to model the opponent - (TODO expand).
 \end{enumerate}
 
@@ -81,5 +82,8 @@ methods mentioned earlier with case-based reasoning , tend to be more case-based
 \subsection{Evolutionary algorithms and neural networks}
 
 \subsection{Bayesian poker}
+
+\bibliographystyle{apacite}
+\bibliography{references}
 
 \end{document}
