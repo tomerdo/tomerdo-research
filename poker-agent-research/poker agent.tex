@@ -7,8 +7,8 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-the game Texas Hold'm Poker is a popular game, and it is also has vast of researches that their goal is to create good computer programs that play poker, we will use the term -  poker agnets.\\
-A strong motivation to this researches is the fact that  poker models are intersting use case of AI. the use case is a game (well defined) with imperfect infomartion (about the world) and element of chance.
+the game Texas Hold'm Poker is a popular game, and it is also has vast of researches that their goal is to create good computer programs that play poker, we will use the term -  poker agents.\\
+A strong motivation to this researches is the fact that  poker models are interesting use case of AI. the use case is a game (well defined) with imperfect information (about the world) and element of chance.
 \subsection{Rules}
 as reviewed in Computer Poker - A review \cite{review}.\\
 The game of Texas Hold’em is played in 4 stages – preflop, flop, turn and river. During the preflop all players at the
@@ -34,10 +34,10 @@ folded their hands. A showdown occurs after the river where the remaining player
 with the best hand wins all the chips in the pot. If two or more players have the same best hand then the pot is split
 amongst the winners.
 (TODO - expand what is "the best hand")
-\section{Litreture Review}
-The researches of poker are realy rich and started way from (TODO complete) and are last to our days.
-their are competation of poker agents, the most famous one is Association for the Advancement of Artificial Intelligence (AAAI) Computer Poker Competition.
-the research are used of there from variaty of subjects from math and computer science:
+\section{Literature Review}
+The researches of poker are really rich and started way from (TODO complete) and are last to our days.
+their are competition of poker agents, the most famous one is Association for the Advancement of Artificial Intelligence (AAAI) Computer Poker Competition.
+the research are used of there from variety of subjects from math and computer science:
 \begin{enumerate}
 \item AI
 \item Game Theory
@@ -46,32 +46,32 @@ the first agent that won a human, a common comparison that is done when dealing 
 
 as mentioned in Computer Poker - A review, there are several approaches that are used to create poker agent\\
 \subsection{Knowledge based agents}
-In this approach the programer encodes expert knowledge to set of "if-else" statements, the disadvantage of this approach is that it's not so hard to human or other agent to learn the knowledge base and use it to establish winning stratagy. another disadvantage it's that in practice it is not perform very well, maybe due to the fact that it's hard to encode all the expertice, and the knowledge of experts is also bounded.
+In this approach the programmer encodes expert knowledge to set of "if-else" statements, the disadvantage of this approach is that it's not so hard to human or other agent to learn the knowledge base and use it to establish winning strategy. another disadvantage it's that in practice it is not perform very well, maybe due to the fact that it's hard to encode all the expertise, and the knowledge of experts is also bounded.
 \subsection{Formula based agents}
-similar to knowledge base , in this approch the agent will act from evalutation of heuristic function that believed to maximize the expectation.
-This approach tackle similar disadvantes as in the knwledge base approach.
+similar to knowledge base , in this approach the agent will act from evaluation of heuristic function that believed to maximize the expectation.
+This approach tackle similar disadvantages as in the knwledge base approach.
 (TODO - add examples of formulas)
 \subsection{Simulation Driven}
-Another classical approach is to use MCMC simulation to calculate expectation of given hole and communaty cards and to play with moves that maximize this expectation.
-the disadvantage of this is the computated simulation did'nt give us usually the best move (TODO - expand and explain why).
+Another classical approach is to use MCMC simulation to calculate expectation of given hole and community cards and to play with moves that maximize this expectation.
+the disadvantage of this is the computed simulation did'nt give us usually the best move (TODO - expand and explain why).
 Due to the fact that the game is can be models by a tree , each player turn is a node and each possible move is a branch, we can use MCST to simulate the game.
 (TODO - expand more on MCST)
 \subsection{Game theoretic equilibrium solutions}
-Poker is a game played with number of players. we can look at this game as a tree of moves, with branch factor as the number of legel moves at each stage.
+Poker is a game played with number of players. we can look at this game as a tree of moves, with branch factor as the number of legal moves at each stage.
 If we assume that the other player play perfect game (Game theory wise) we can use search algorithm, simple min-max will not work here due to the fact
-that each play has imperfect infomartion, the fact that the game is includes element of change is dealth with the algorithm (expectimax TODO-add refence and expend). we can try other algorithms.
-Moreover , the number of possible states is realy high so game search algorithm will strugle to find an optimum, so an approach that is tried in the past is to reduce
-the number of states by abstraction, we can see it as equivliant classes, some states of the original game will map to the sam EC in the simplified game.
+that each play has imperfect information, the fact that the game is includes element of change is dealth with the algorithm (expectimax TODO-add reference and expend). we can try other algorithms.
+Moreover , the number of possible states is really high so game search algorithm will struggle to find an optimum, so an approach that is tried in the past is to reduce
+the number of states by abstraction, we can see it as equivalent classes, some states of the original game will map to the same EC in the simplified game.
 and the algorithms will run on the simplified version. (TODO expand on lossless and lossy abstraction)
 The main disadvantage of this approach is the assumption of perfect play , so in the long run because it's near-Nash equilibrium solution ,
- in practice the agent misses chances to exploit other players when they don't play perfrect strategy.
-another technique that used elaborately in DeepStack \cite{deepstack} is Counterfactual Regret Minimisation (CFR) (TODO - extand)
+ in practice the agent misses chances to exploit other players when they don't play perfect strategy.
+another technique that used elaborately in DeepStack \cite{deepstack} is Counterfactual Regret Minimisation (CFR) (TODO - extend)
 \subsection{Exploitive counter-strategies}
-An intersting approach is to use exploitive counter-strategies , the understanding that to achieve Nash equilibrium solution is not realistic , our opponent can reach only near-Nash equilibrium solution, make the opponent "vulnerable" to counter-strategies, as mentioned earlier the reason we can't use expectimax is because we have hidden information (the hole card of the opponents) , but what we can do is to model the opponent and act in the expectimax algorithm as the opponent model would act.\\
+An interesting approach is to use exploitative counter-strategies , the understanding that to achieve Nash equilibrium solution is not realistic , our opponent can reach only near-Nash equilibrium solution, make the opponent "vulnerable" to counter-strategies, as mentioned earlier the reason we can't use expectimax is because we have hidden information (the hole card of the opponents) , but what we can do is to model the opponent and act in the expectimax algorithm as the opponent model would act.\\
 there are different way to model an opponent: \\
 \begin{enumerate}
-\item Neural Nets - (add refernce) learn a model from historical games (individual to each player) \\
-\item Bayesian model - (maybe will be the advance of the research) as we model the rules of poker we could model our belief on opponent hidden information, and could maybe deduce some information given the actions the opponent did (posterior), the algorithm can combine this posterior distribution with the visible information distribution (hole cards and community cards)  can try to optimize our moves given this distribution, could be from simulation driven approach or other approaches. this is an intersting study case because we combine the distribution of the stochastic nature of the game and the distribution of the hidden variables (opponents hole cards) , maybe something like \cite{Seaman2018ProbabilisticPF}\\
+\item Neural Nets - (add reference) learn a model from historical games (individual to each player) \\
+\item Bayesian model - (maybe will be the advance of the research) as we model the rules of poker we could model our belief on opponent hidden information, and could maybe deduce some information given the actions the opponent did (posterior), the algorithm can combine this posterior distribution with the visible information distribution (hole cards and community cards)  can try to optimize our moves given this distribution, could be from simulation driven approach or other approaches. this is an interesting study case because we combine the distribution of the stochastic nature of the game and the distribution of the hidden variables (opponents hole cards) , maybe something like \cite{Seaman2018ProbabilisticPF}\\
 \item other ways to model the opponent - (TODO expand).
 \end{enumerate}
 
