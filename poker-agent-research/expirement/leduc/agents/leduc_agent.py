@@ -1,16 +1,19 @@
+from abc import abstractmethod , ABC
+
 from leduc.leduc_action import LeducAction
 
 
-class LeducAgent:
-    community_card: str
-    hand: str
+class LeducAgent(ABC):
+    community_card: str = None
+    hand: str = None
 
     def __init__(self, name: str, initial_money):
         self.name = name
         self.money = initial_money
 
+    @abstractmethod
     def take_action(self) -> LeducAction:
-        return LeducAction.CHECK
+        pass
 
     def receive_hand(self , hand: str):
         self.hand = hand

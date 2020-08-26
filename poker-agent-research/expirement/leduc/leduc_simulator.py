@@ -1,13 +1,14 @@
 from leduc.leduc_game import LeducGame
-from leduc.leduc_agent import LeducAgent
+from leduc.agents.leduc_agent import LeducAgent
+from leduc.agents.fish_agent import FishAgent
 
-num_of_rounds = 1000
-num_of_simulation = 10
+num_of_rounds = 100
+num_of_simulation = 100
 
 
 def simulate_game(num_of_rounds):
-    player1 = LeducAgent('player1', 100)
-    player2 = LeducAgent('player2', 100)
+    player1 = FishAgent('player1', 100)
+    player2 = FishAgent('player2', 100)
     game = LeducGame(player1, player2)
     for i in range(num_of_rounds):
         if player1.money <= 0 or player2.money <= 0:
