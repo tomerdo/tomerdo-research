@@ -3,5 +3,8 @@ from leduc.leduc_action import LeducAction
 
 
 class FishAgent(LeducAgent):
-    def take_action(self) -> LeducAction:
-        return LeducAction.CHECK
+    def choose_action(self, need_to_call_amount) -> LeducAction:
+        if need_to_call_amount > 0:
+            # FOLD
+            return LeducAction.FOLD
+        return LeducAction.CALL

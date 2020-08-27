@@ -4,4 +4,5 @@ from enum import Enum
 class LeducAction(Enum):
     FOLD = 0
     CHECK = 1
-    BET = 2
+    CALL = 2
+    BET = 3

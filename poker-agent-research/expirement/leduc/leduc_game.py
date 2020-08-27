@@ -13,7 +13,7 @@ class LeducGame:
         self.player2 = player2
         self.money_pot = 0
         self.active_players = []
-        self.need_to_call = 0
+        self.need_to_call_amount = 0
 
     def play_round(self, round_num: int):
 
@@ -31,12 +31,12 @@ class LeducGame:
         self.money_pot += 2
 
         # first player playing (TODO - late do in rotations , and have a choice to do limited betting)
-        player1_action = self.player1.take_action()
+        player1_action = self.player1.choose_action(self.need_to_call_amount)
         try:
             self.commit_action(self.player1, player1_action)
 
             # second player playing
-            player2_action = self.player2.take_action()
+            player2_action = self.player2.choose_action(self.need_to_call_amount)
             self.commit_action(self.player2, player2_action)
 
             # dealing the community card
@@ -44,10 +44,10 @@ class LeducGame:
             self.player1.receive_community_card(community_card)
             self.player2.receive_community_card(community_card)
 
-            player1_action = self.player1.take_action()
+            player1_action = self.player1.choose_action(self.need_to_call_amount)
             self.commit_action(self.player1, player1_action)
 
-            player2_action = self.player2.take_action()
+            player2_action = self.player2.choose_action(self.need_to_call_amount)
             self.commit_action(self.player2, player2_action)
             winner, pot = self.eval_winner_and_update(self.player1, self.player2)
 
@@ -64,28 +64,30 @@ class LeducGame:
 
         # deleting all the data
         self.money_pot = 0
-        self.need_to_call = 0
+        self.need_to_call_amount = 0
         self.active_players = []
 
     def commit_action(self, player, player_action):
         if player_action == LeducAction.CHECK:
-            if self.need_to_call > 0:
-                # FOLD
-                self.fold(player)
+            self.check()
+        elif player_action == LeducAction.CALL:
             self.call(player)
         elif player_action == LeducAction.FOLD:
             self.fold(player)
         else:  # BET
             self.bet(player, 1)
 
+    def check(self):
+        pass
+
     def call(self, player):
-        player.money -= self.need_to_call
-        self.need_to_call = 0
+        player.money -= self.need_to_call_amount
+        self.need_to_call_amount = 0
 
     def bet(self, player, bet_amount):
         player.money -= bet_amount
         self.money_pot += bet_amount
-        self.need_to_call = bet_amount
+        self.need_to_call_amount = bet_amount
 
     def fold(self, player):
         self.active_players.remove(player)
