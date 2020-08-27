@@ -12,8 +12,13 @@ class LeducGame:
         self.player1 = player1
         self.player2 = player2
         self.money_pot = 0
+        self.active_players = []
+        self.need_to_call = -1
 
     def play_round(self, round_num: int):
+
+        self.active_players: List[LeducAgent] = [self.player1, self.player2]
+
         deck = cards.copy()
         print(f'starting round: #{round_num}')
 
@@ -25,29 +30,56 @@ class LeducGame:
         # each player put ante
         self.money_pot += 2
 
-        # first play playing (TODO - late do in rotations , and have a choice to do limited betting)
+        # first player playing (TODO - late do in rotations , and have a choice to do limited betting)
         player1_action = self.player1.take_action()
-        self.commit_action(player1_action)
-        player2_action = self.player2.take_action()
-        self.commit_action(player2_action)
-        community_card = self.reveal_community_card(deck)
-        self.player1.receive_community_card(community_card)
-        self.player2.receive_community_card(community_card)
-        player1_action = self.player1.take_action()
-        self.commit_action(player1_action)
-        player2_action = self.player2.take_action()
-        self.commit_action(player2_action)
-        winner, pot = self.eval_winner_and_update(self.player1, self.player2)
+        try:
+            self.commit_action(self.player1, player1_action)
+
+            # second player playing
+            player2_action = self.player2.take_action()
+            self.commit_action(self.player2, player2_action)
+
+            # dealing the community card
+            community_card = self.reveal_community_card(deck)
+            self.player1.receive_community_card(community_card)
+            self.player2.receive_community_card(community_card)
+
+            player1_action = self.player1.take_action()
+            self.commit_action(self.player1, player1_action)
+
+            player2_action = self.player2.take_action()
+            self.commit_action(self.player2, player2_action)
+            winner, pot = self.eval_winner_and_update(self.player1, self.player2)
+
+        except LastPlayerException:
+            winner, pot = self.active_players.pop(), self.money_pot
+            winner.money += self.money_pot
+            print(f'the second player folded the winner is {winner.name} and won a {pot}')
+
         if winner is not None:
             prompt_message = f'{winner.name} just won round {round_num} and earned {pot}$'
         else:  # TIE
             prompt_message = f'the game ended with tie both player got half of the pot. each got {pot}'
         print(prompt_message)
-        self.money_pot = 0
 
-    def commit_action(self, player_action):
+        # deleting all the data
+        self.money_pot = 0
+        self.active_players = []
+
+    def commit_action(self, player, player_action):
         if player_action == LeducAction.CHECK:
+            if self.need_to_call > 0:
+                # FOLD
+                self.active_players.remove(player)
+                raise LastPlayerException()
             pass
+        elif player_action == LeducAction.FOLD:
+            self.active_players.remove(player)
+            raise LastPlayerException()
+        else:  # BET
+            player.money -= 1
+            self.money_pot += 1
+            self.need_to_call = 1
 
     @staticmethod
     def deal_cards(deck):
@@ -88,3 +120,7 @@ class LeducGame:
             winner = player2
         winner.money += self.money_pot
         return winner, self.money_pot
+
+
+class LastPlayerException(Exception):
+    pass
