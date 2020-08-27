@@ -13,7 +13,7 @@ class LeducGame:
         self.player2 = player2
         self.money_pot = 0
         self.active_players = []
-        self.need_to_call = -1
+        self.need_to_call = 0
 
     def play_round(self, round_num: int):
 
@@ -64,22 +64,32 @@ class LeducGame:
 
         # deleting all the data
         self.money_pot = 0
+        self.need_to_call = 0
         self.active_players = []
 
     def commit_action(self, player, player_action):
         if player_action == LeducAction.CHECK:
             if self.need_to_call > 0:
                 # FOLD
-                self.active_players.remove(player)
-                raise LastPlayerException()
-            pass
+                self.fold(player)
+            self.call(player)
         elif player_action == LeducAction.FOLD:
-            self.active_players.remove(player)
-            raise LastPlayerException()
+            self.fold(player)
         else:  # BET
-            player.money -= 1
-            self.money_pot += 1
-            self.need_to_call = 1
+            self.bet(player, 1)
+
+    def call(self, player):
+        player.money -= self.need_to_call
+        self.need_to_call = 0
+
+    def bet(self, player, bet_amount):
+        player.money -= bet_amount
+        self.money_pot += bet_amount
+        self.need_to_call = bet_amount
+
+    def fold(self, player):
+        self.active_players.remove(player)
+        raise LastPlayerException()
 
     @staticmethod
     def deal_cards(deck):

@@ -2,7 +2,7 @@ from leduc.leduc_game import LeducGame
 from leduc.agents.fish_agent import FishAgent
 from leduc.agents.rule_based_agent import RuleBasedAgent
 
-num_of_rounds = 50
+num_of_rounds = 100
 num_of_simulation = 100
 
 
