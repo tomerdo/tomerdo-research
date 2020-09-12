@@ -15,7 +15,7 @@ class LeducAgent(ABC):
     def choose_action(self, need_to_call_amount) -> LeducAction:
         pass
 
-    def receive_hand(self , hand: str):
+    def receive_hand(self, hand: str):
         self.hand = hand
         # putting ante
         self.money -= 1

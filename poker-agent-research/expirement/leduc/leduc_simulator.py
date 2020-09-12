@@ -2,9 +2,6 @@ from leduc.leduc_game import LeducGame
 from leduc.agents.fish_agent import FishAgent
 from leduc.agents.rule_based_agent import RuleBasedAgent
 
-num_of_rounds = 100
-num_of_simulation = 100
-
 
 def simulate_game(num_of_rounds):
     player1 = FishAgent('player1', 100)
@@ -19,7 +16,9 @@ def simulate_game(num_of_rounds):
     return player1.money, player2.money
 
 
-if __name__ == '__main__':
+def main():
+    num_of_rounds = 100
+    num_of_simulation = 100
     player1_sum = 0
     player2_sum = 0
     for _ in range(num_of_simulation):
@@ -28,3 +27,7 @@ if __name__ == '__main__':
         player2_sum += player2_money
     print(f'after {num_of_simulation} simulations first player average profit is {player1_sum / num_of_simulation}$ '
           f'and second player average profit is {player2_sum / num_of_simulation}$')
+
+
+if __name__ == '__main__':
+    main()

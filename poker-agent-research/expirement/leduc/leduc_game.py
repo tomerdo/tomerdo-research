@@ -52,6 +52,7 @@ class LeducGame:
             winner, pot = self.eval_winner_and_update(self.player1, self.player2)
 
         except LastPlayerException:
+            # The Second player won
             winner, pot = self.active_players.pop(), self.money_pot
             winner.money += self.money_pot
             print(f'the second player folded the winner is {winner.name} and won a {pot}')
