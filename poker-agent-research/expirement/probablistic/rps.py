@@ -1,4 +1,5 @@
 from enum import IntEnum
+
 import numpy as np
 
 
@@ -9,6 +10,10 @@ def wins(other):
         return np.long(2)
     else:
         return np.long(0)
+
+
+def numerical_wins(i):
+    return (i + 1) % 3
 
 
 class RPS(IntEnum):
