@@ -64,31 +64,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# def play_rps(num_of_trails=100):
-#     """
-#     simulate a game between two rps players
-#     :param num_of_trails:
-#     :return: the ratio between player one winning and player two winning
-#     """
-#     first_player_wins = 0
-#     second_player_wins = 0
-#     ties = 0
-#     for i in range(num_of_trails):
-#         first_player = RPS(first_model)
-#         print('first player chose {}'.format(repr(first_player)))
-#
-#         second_player = RPS(pyro.sample("p2", dist.Categorical(torch.tensor([1.0, 1.0, 100.0]))).item())
-#         print('second player chose {}'.format(repr(second_player)))
-#
-#         result = get_result(first_player, second_player)
-#
-#         if result > 0:
-#             first_player_wins += 1
-#         elif result < 0:
-#             second_player_wins += 1
-#
-#         else:
-#             ties += 1
-#
-#     return first_player_wins, second_player_wins, ties
