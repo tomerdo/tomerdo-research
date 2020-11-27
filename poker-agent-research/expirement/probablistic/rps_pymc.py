@@ -5,23 +5,33 @@ import matplotlib.pyplot as plt
 from time import time
 from probablistic.rps import RPS, get_result, numerical_wins
 
+model = None
+
 
 def first_player_model(observed):
-    t1 = time()
-    with pm.Model() as model_1:
+    # t1 = time()
+    global model
+    model = pm.Model()
+    with model:
         alpha = [1, 1, 1]
         # observed = None
         dirichlet = pm.Dirichlet('dirichlet', a=alpha)
         phi = pm.Categorical('phi', p=dirichlet, observed=observed)
-        posterior = pm.sample(step=pm.Metropolis(), return_inferencedata=True)
+        return model
+
+
+def infer():
+    global model
+    with model:
+        posterior = pm.sample(step=pm.Metropolis(), model=model, return_inferencedata=True)
         posterior_pred = pm.sample_posterior_predictive(posterior)
 
         # print(az.summary(posterior))
         # print(posterior_pred)
         median_over_samples = np.median(posterior_pred['phi'], axis=0)
         # print(median_over_samples)
-        t2 = time()
-        elapsed = t2 - t1
+        # t2 = time()
+        # elapsed = t2 - t1
         # print('Elapsed time is %f seconds.' % elapsed)
         return median_over_samples
 
@@ -42,7 +52,8 @@ def simulate_with_latent_alpha(num_of_simulations=10, alpha=[1, 1, 1]):
         second_player_history = second_player_model(num_of_samples=10, alpha=alpha)
 
         # gets a list of observed values and returns the distribution of probable action
-        first_player_next_moves = first_player_model(observed=second_player_history)
+        first_player_model(observed=second_player_history)
+        first_player_next_moves = infer()
 
         # print(first_player_next_moves)
 
