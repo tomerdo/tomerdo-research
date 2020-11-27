@@ -69,7 +69,7 @@ def simulate_with_latent_alpha(num_of_simulations=10, alpha=[1, 1, 1]):
         total_ties += ties
         # print(f'in simulation {i}: wins: {first_player_wins}, loses: {second_player_wins}, ties: {ties}')
     print(
-        f'For opponent\'s alpha vector: {alpha} averages in all simulations is wins: {total_first_player_wins / num_of_simulations}'
+        f'For opponent\'s alpha vector: {alpha} averages in all simulations is wins: {total_first_player_wins / num_of_simulations} '
         f' loses:{total_second_player_wins / num_of_simulations} ties:{total_ties / num_of_simulations}')
 
 
