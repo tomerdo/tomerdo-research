@@ -56,15 +56,6 @@
 						</blockquote>
 					</section>
 					<section>
-						<p>Possible Settings:
-								<ol>
-									<li>Adverserial</li>
-									<li>Cooperative</li>
-									<li>One indifferent</li>
-								</ol>
-						</p>
-					</section>
-					<section>
 						<img src="assets/figures/bob-alice-intro-1.png"></img>
 					</section>
 					<section>
@@ -77,9 +68,9 @@
 					</section>
 					<section>
 						The fable of Bob and Alice is underspecified: we know how strong Bob
-or Alice prefer the first bar over the second one, or vice versa, however,
-we do not know how strong Bob and Alice prefer to meet (or avoid) each
-other.
+						or Alice prefer the first bar over the second one, or vice versa, however,
+						we do not know how strong Bob and Alice prefer to meet (or avoid) each
+						other.
 					</section>
 					<section>
 						 <ol>
@@ -88,12 +79,82 @@ other.
 							 <li>$r_m$ - the reward for meeting the other person.</li>
 						 </ol>
 					</section>
+					<section>
+						Alice prefers the first bar ($r_{Alice}^1 > r_{Alice}^2$) and is
+						rational, she should always go to the first bar.
+						If, in addition, Alice ascribes reward $r_{Alice}^m$ to meeting Bob,
+						and believes that Bob goes to the first bar with
+						probability $\hat p_{Bob}^1$, then she should go to the first
+						bar if $r_{Alice}^1 + \hat p_{Bob}^1r_{Alice}^m >
+						r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$, and to
+						the second bar otherwise,
+					</section>
+					<section>
+						However, stochastic behavior is not unusual, and we should be
+						able to model it. To reconcile rewards and stochastic action
+						choice, the softmax agent was proposed and is broadly used for
+						modeling `approximately optimal agents'.
+						A softmax agent
+						chooses actions stochastically, with probabilities proportional
+						to the exponentiated action utilities.
+					</section>
+					<section>
+						$r_{Alice}^1$ and $r_{Alice}^2$ such that $r_{Alice}^1 =
+						r_{Alice}^2 + \log\left(\frac {p_{Alice}^1} {1 -
+						p_{Alice}^1}\right)$. Concretely, for $p_{Alice}^1 = 0.55$ we
+						obtain $r_1 \approx r_2 + 0.2$; only the difference between
+						rewards matters in a softmax agent, rather than their absolute
+						values.
+					</section>
+						<section>
+							<img src="assets/figures/determinisic-1.png"></img>
+						</section>
 				</section>
 				<section>
+					<section>
 					Stochastic Prefernces
+					</section>
+					<section>
+						<img src="assets/figures/stochastic-1.png"></img>
+					</section>
+					<section>
+						<img src="assets/figures/stochastic-2.png"></img>
+					</section>
+					<section>
+							<img src="assets/figures/stochastic-3.png"></img>
+					</section>
+					<section>
+						A direct corollary from (5.1) and (5.2) is that planning as inference
+						with probabilistic preferences can be encoded as a Bayesian
+						generative model using probabilities only, without resort to
+						rewards.
+					</section>
+					<section>
+						<blockquote>
+							Preferences are naturally probabilistic in general and should be
+							expressed as probabilities of choices under clairvoyance.
+							`Deterministic` specification of preferences through rewards is
+							an indirect way to encode probabilistic preferences. Reward
+							maximization algorithms for policy search are in fact
+							maximum a posteriori approximations of the
+							distributions of optimal behaviors, which are inherently
+							stochastic.
+						</blockquote>
+					</section>
 				</section>
 				<section>
-					Reinformencement Learning as Infernce
+					<section>
+						Reinformencement Learning as Infernce
+					</section>
+					<section>
+							<img src="assets/figures/mdp-1.png"></img>
+					</section>
+					<section>
+							<img src="assets/figures/mdp-2.png"></img>
+					</section>
+					<section>
+							<img src="assets/figures/mdp-am.png"></img>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -109,13 +170,17 @@ other.
 					</section>
 					<section>
 						<h2>Bob chases Alice, Alice Avoids Bob</h2>
-						<img src="assets/figures/bob-chases-1.png"></img>
-						<img src="assets/figures/bob-chases-2.png"></img>
+						<div class="r-stack">
+							<img src="assets/figures/bob-chases-1.png" class="fragment fade-in-then-out"></img>
+							<img src="assets/figures/bob-chases-2.png" class="fragment fade-in-then-out"></img>
+						</div>
 					</section>
 					<section>
 						<h2>Bob and Alice Avoid Each Other</h2>
-						<img src="assets/figures/both-avoid-1.png"></img>
-						<img src="assets/figures/both-avoid-2.png"></img>
+						<div class="r-stack">
+							<img src="assets/figures/both-avoid-1.png" class="fragment fade-in-then-out"></img>
+							<img src="assets/figures/both-avoid-2.png" class="fragment fade-in-then-out"></img>
+						</div>
 					</section>
 					<section>
 						<h2>Alice learns Bob's Prefernces</h2>
