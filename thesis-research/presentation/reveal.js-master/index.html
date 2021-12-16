@@ -25,8 +25,8 @@
 					<ul>
 						<li>Probabilistic Programming</li>
 						<li>The Fable of Bob and Alice</li>
-						<li>Determenistic Prefernces</li>
-						<li>Stochastic Prefernces</li>
+						<li>Determenistic Preferences</li>
+						<li>Stochastic Preferences</li>
 						<li>Reinformencement Learning as Infernce</li>
 						<li>Related Work</li>
 						<li>Discussion</li>
@@ -56,6 +56,12 @@
 								3. If false - toss again - and anser true iff Head
 	  						</aside>
 					</section>
+					<section>
+							<img src="assets/figures/posterior-update-animation.gif"></img>
+					</section>
+					<section>
+							<img src="assets/figures/bernoulli-update.gif"></img>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -64,42 +70,47 @@
 					<section>
 						<blockquote>
 							Bob and Alice want to meet in a bar, but Bob left his phone
-							at home. There are two bars, which Bob and Alice visit with
-							different frequencies. Which bar Bob and Alice should head if
-							they want to meet?
+							at home.<br>
+							There are two bars, which Bob and Alice visit with different frequencies.<br>
+							Which bar Bob and Alice should head if they want to meet?
 						</blockquote>
 						<aside class="notes">
-							We have here a simple example of probablistic program.
-							running forward - this sampling points of y
-							running infernce (backward) over observation - we compute the posterior of theta
+							classic example from game of theory research,
+							introduced in the context of probablistic programming
+							first in: Modeling Agents with Probabilistic Programs.
+							We will talk about it later.
   					 </aside>
 					</section>
 					<section>
 						<img src="assets/figures/bob-alice-intro-1.png"></img>
 						<aside class="notes">
-							We have here a simple example of probablistic program.
-							running forward - this sampling points of y
-							running infernce (backward) over observation - we compute the posterior of theta
+							Let's try to model it abstractly
   					 </aside>
 					</section>
 					<section>
 						<img src="assets/figures/bob-alice-intro-epsiode-infer.png"></img>
 						<aside class="notes">
-							We have here a simple example of probablistic program.
-							running forward - this sampling points of y
-							running infernce (backward) over observation - we compute the posterior of theta
+							Here we model one episode unrolling
   					 </aside>
 					</section>
 				</section>
 				<section>
 					<section>
-						Determenistic Prefernces
+						Determenistic Preferences
 					</section>
 					<section>
-						The fable of Bob and Alice is underspecified: we know how strong Bob
-						or Alice prefer the first bar over the second one, or vice versa, however,
-						we do not know how strong Bob and Alice prefer to meet (or avoid) each
-						other.
+						The fable of Bob and Alice is underspecified
+						<aside class="notes">
+							We know how strong Bob
+							or Alice prefer the first bar over the second one, or vice versa, however,
+							we do not know how strong Bob and Alice prefer to meet (or avoid) each
+							other.
+							We think that the study case is not specified enough,
+							what is the meaning of this proablities, if in the end
+							the most important mission is that they will meet,
+							ofcourse if we talking about probablity greater 0.5
+							for both of them for the same bar this is the rational thing to do
+  					 </aside>
 					</section>
 					<section>
 						 <ol>
@@ -107,45 +118,60 @@
 							 <li>$r_2$ - the reward for visiting the second bar;</li>
 							 <li>$r_m$ - the reward for meeting the other person.</li>
 						 </ol>
+						 <aside class="notes">
+ 							To add specification and formalism we introduce 3 rewards
+							for each one of them. With this we can quantify their "intersts"
+   					 </aside>
 					</section>
 					<section>
-						Alice prefers the first bar ($r_{Alice}^1 > r_{Alice}^2$) and is
-						rational, she should always go to the first bar.
-						If, in addition, Alice ascribes reward $r_{Alice}^m$ to meeting Bob,
-						and believes that Bob goes to the first bar with
-						probability $\hat p_{Bob}^1$, then she should go to the first
-						bar if $r_{Alice}^1 + \hat p_{Bob}^1r_{Alice}^m >
-						r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$, and to
-						the second bar otherwise,
-					</section>
-					<section>
-						The softmax agent was proposed and is broadly used for
-						modeling `approximately optimal agents`.
+						<p class="fragment fade-in">$r_{Alice}^1 > r_{Alice}^2$</p>
+						<p class="fragment fade-in">$r_{Alice}^1 + \hat p_{Bob}^1r_{Alice}^m >
+						r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$</p>
+
 						<aside class="notes">
-							However, stochastic behavior is not unusual, and we should be
-							able to model it. To reconcile rewards and stochastic action
-							choice, the softmax agent was proposed and is broadly used for
-							modeling `approximately optimal agents'.
-							A softmax agent
-							chooses actions stochastically, with probabilities proportional
-							to the exponentiated action utilities.
-  						</aside>
+							Alice prefers the first bar ($r_{Alice}^1 > r_{Alice}^2$) and is
+							rational, she should always go to the first bar.
+							If, in addition, Alice ascribes reward $r_{Alice}^m$ to meeting Bob,
+							and believes that Bob goes to the first bar with
+							probability $\hat p_{Bob}^1$, then she should go to the first
+							bar if $r_{Alice}^1 + \hat p_{Bob}^1r_{Alice}^m >
+							r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$, and to
+							the second bar otherwise,
+						</aside>
 					</section>
 					<section>
+						<p class="fragment fade-in">$r_{Alice}^1 = r_{Alice}^2 +
+							 \log\left(\frac {p_{Alice}^1} {1 - p_{Alice}^1}\right)$</p>
+						<p class="fragment fade-in">$p_{Alice}^1 = 0.55$</p>
+						<p class="fragment fade-in">$r_1 \approx r_2 + 0.2$</p>
+					<aside class="notes">
 						$r_{Alice}^1$ and $r_{Alice}^2$ such that $r_{Alice}^1 =
 						r_{Alice}^2 + \log\left(\frac {p_{Alice}^1} {1 -
 						p_{Alice}^1}\right)$. Concretely, for $p_{Alice}^1 = 0.55$ we
 						obtain $r_1 \approx r_2 + 0.2$; only the difference between
 						rewards matters in a softmax agent, rather than their absolute
 						values.
+						The softmax agent was proposed and is broadly used for
+						modeling `approximately optimal agents`.
+						However, stochastic behavior is not unusual, and we should be
+						able to model it. To reconcile rewards and stochastic action
+						choice, the softmax agent was proposed and is broadly used for
+						modeling `approximately optimal agents'.
+						A softmax agent
+						chooses actions stochastically, with probabilities proportional
+						to the exponentiated action utilities.
+					</aside>
 					</section>
 						<section>
-							<img src="assets/figures/determinisic-1.png"></img>
+							<p class="fragment fade-in">$u_{Alice}^1 = r_{Alice}^1 + \hat p_{Bob}^1r_{Alice}^m$</p>
+							<p class="fragment fade-in">$u_{Alice}^2 = r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$</p>
+							<p class="fragment fade-in">$\Pr(\mathbb{I}_{Alice}^1) = \frac {\exp(u_{Alice}^1)} {\exp(u_{Alice}^1) + \exp(u_{Alice}^2)}$</p>
+							<!-- img src="assets/figures/determinisic-1.png"></img -->
 						</section>
 				</section>
 				<section>
 					<section>
-					Stochastic Prefernces
+					Stochastic Preferences
 					</section>
 					<section>
 						<img src="assets/figures/stochastic-1.png"></img>
@@ -178,22 +204,26 @@
 							<img src="assets/figures/stochastic-3.png"></img>
 					</section>
 					<section>
-						A direct corollary from (5.1) and (5.2) is that planning as inference
-						with probabilistic preferences can be encoded as a Bayesian
+						Planning as inference with probabilistic preferences can be encoded as a Bayesian
 						generative model using probabilities only, without resort to
 						rewards.
+						<aside class="notes">
+							A direct corollary from (5.1) and (5.2) is that Planning as inference with probabilistic preferences
+						</aside>
 					</section>
 					<section>
 						<blockquote>
 							Preferences are naturally probabilistic in general and should be
-							expressed as probabilities of choices under clairvoyance.
+							expressed as probabilities of choices under clairvoyance.<br><br>
 							`Deterministic` specification of preferences through rewards is
-							an indirect way to encode probabilistic preferences. Reward
-							maximization algorithms for policy search are in fact
+							an indirect way to encode probabilistic preferences.
+						</blockquote>
+						<aside class="notes">
+							Reward maximization algorithms for policy search are in fact
 							maximum a posteriori approximations of the
 							distributions of optimal behaviors, which are inherently
 							stochastic.
-						</blockquote>
+						</aside>
 					</section>
 				</section>
 				<section>
@@ -254,7 +284,7 @@
 						</div>
 					</section>
 					<section>
-						<h2>Alice learns Bob's Prefernces</h2>
+						<h2>Alice learns Bob's preferences</h2>
 						<img src="assets/figures/bob-alice-learned.png"></img>
 					</section>
 					<section>
@@ -305,7 +335,7 @@
 					</section>
 					<section>
 							<img src="assets/figures/sailing-results.png"></img>
-						</aside class="notes">
+						<aside class="notes">
 								The model parameters (cost and wind change probabilities), same as
 								in [KS06, TS12], are shown in Table 7.1. A non-informative improper prior
 								is imposed on q. We fit the model using pseudo-marginal Metropolis-
