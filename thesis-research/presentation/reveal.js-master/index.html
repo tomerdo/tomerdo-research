@@ -23,7 +23,7 @@
 				</section>
 				<section>
 					<ul>
-						<li>Probabilistic Programming</li>
+						<li>Background</li>
 						<li>The Fable of Bob and Alice</li>
 						<li>Determenistic Preferences</li>
 						<li>Stochastic Preferences</li>
@@ -33,6 +33,9 @@
 					</ul>
 				</section>
 				<section>
+					<section>
+						Background
+					</section>
 					<section>Probabilistic Programming</section>
 					<section>
 						<h3>Probabilistic Program Example</h3>
@@ -62,10 +65,111 @@
 					<section>
 							<img src="assets/figures/bernoulli-update.gif"></img>
 					</section>
+					<section>
+						Planning as Inference
+					</section>
+						<section>
+							<p>policy: $\pi_\theta(E)$</p>
+							<p class="fragment fade-in">latent variables: $\theta$, environment: $E$</p>
+							<p class="fragment fade-in">reward: $r \sim \pi_\theta(E)$</p>
+							<p class="fragment fade-in">The posterior distribution of policy parameters: $p(\theta\vert E)$</p>
+							<p class="fragment fade-in">$p(\theta\vert E) \propto p(\theta)\exp\left(\mathbb{E}\left[r \sim \pi_\theta(E)\right]\right)$</p>
+							<p class="fragment fade-in">Posterior inference on the above gives a distribution of policy parameters</p>
+							<aside class="notes">
+								Planning, as a discipline of artificial intelligence, considers
+								agents acting in environments. The agents have
+								beliefs about their environments and perform actions which bring
+								them rewards (or regrets). AI planning is concerned with
+								algorithms that search for policies --- mappings from
+								agents' beliefs about the environment to their actions. In
+								planning-as-inference approach, policy search
+								is expressed as inference in an appropriate probabilistic model.
+								A probabilistic program reifying the planning-as-inference
+								approach encodes instantiation of policy $\pi_\theta(E)$,
+								depending on latent parameters $\theta$, in environment $E$. In
+								the course of execution, the program computes the reward $r \sim
+								\pi_\theta(E)$, stochastic in general.  The posterior
+								distribution of policy parameters $p(\theta\vert E)$, conditioned on
+								the environment, is defined in terms of their prior distribution
+								$p(\theta)$ and of the expected reward:
+								Posterior inference on \eqref{eqn:planning-as-inference} gives a
+								distribution of policy parameters, with the mode of the
+								distribution corresponding to the policy maximizing the expected
+								reward.
+							</aside>
+						</section>
+					<section>
+						Stochastic Conditioning
+					</section>
+					<section>
+						<p>$p(x\vert y=y_0)$</p>
+						<p class="fragment fade-in">$p(x\vert y \sim D_0)$</p>
+						<p class="fragment fade-in">$(p(x, y), D)$</p>
+						<p class="fragment fade-in">The objective is to infer $p(x\vert y \sim D)$ the distribution of $x$ given $D$</p>
+						<p class="fragment fade-in">rather than an individual observation $y$</p>
+						<img src="assets/figures/stochastic-notation.png" class="fragment fade-in"></img>
+
+						<aside class="notes">
+							Stochastic conditioning extends
+							deterministic conditioning $p(x\vert y=y_0)$,
+							i.e.~conditioning on some random variable in our program $y$
+							taking on a particular value $y_0$, to conditioning $p(x\vert y
+							\sim D_0)$ on $y$ having the marginal distribution $D_0$.
+							A probabilistic model with stochastic conditioning is a tuple
+							$(p(x, y), D)$ where
+							\begin{itemize}
+							    \item $p(x, y)$ is the joint probability density of random
+							        variable $x$ and observation $y$,
+							    \item $D$  is the distribution from which observation $y$ is
+							        marginally sampled, and it has a density $q(y)$.
+							\end{itemize}
+
+							Unlike in the usual setting, the objective is to infer $p(x\vert y
+							\sim D)$, the distribution of $x$ given \textit{distribution}
+							$D$, rather than an individual observation $y$.  To accomplish
+							this objective, one must be able to compute $p(x, y \sim
+							D)$, a possibly unnormalized density on $x$ and distribution
+							$D$.
+							By convention, in statistical notation $y \sim D$ is placed
+							above a rule to denote that distribution $D$ is observed through
+							$y$ and is otherwise unknown to the model
+						</aside>
+					</section>
+					<section>
+						Epistemtic Reasoning
+					</section>
+					<section>
+						<p>Epistemic reasoning, also known as theory of mind, is mutual reasoning of multiple agents about each others' beliefs and intentions.</p>
+						<p class="fragment fade-in">Each agent's policy is mutually conditioned on other agents' policies</p>
+						<p class="fragment fade-in">Probabilistic programming allows natural representation of epistemic reasoning</p>
+						<p class="fragment fade-in">Inference in multiagent settings requires nested conditioning</p>
+						<p class="fragment fade-in">The recursion can unroll indefinitely -> recursion depth is bounded by a constant.</p>
+						<aside class="notes">
+							Epistemic reasoning, also known as theory of
+							mind, is mutual reasoning of multiple agents about each others'
+							beliefs and intentions. Epistemic reasoning comes up in
+							the planning-as-inference paradigm when each agent's policy is
+							mutually conditioned on other agents' policies.
+							Probabilistic programming allows natural representation of
+							epistemic reasoning: the program modeling an agent invokes
+							inference on the programs modeling the rest of the agents.
+							However, this means that inference in multiagent settings
+							requires nested conditioning, which is computationally
+							challenging in general, although attempts are being made to find
+							efficient implementations of nested conditioning in certain
+							settings.  Since each agent's model recursively
+							refers to models of other agents, the recursion can unroll
+							indefinitely.  In a basic approach, the
+							recursion depth is bounded by a constant.
+						</aside>
+					</section>
 				</section>
 				<section>
 					<section>
 						The Fable of Bob and Alice
+						<aside class="notes">
+							The use case we will explore in the research
+						</aside>
 					</section>
 					<section>
 						<blockquote>
@@ -229,6 +333,9 @@
 				<section>
 					<section>
 						Reinformencement Learning as Infernce
+						<aside class="notes">
+							After we have seen a formalization let's try to connect it to the bigger picutre
+						</aside>
 					</section>
 					<section>
 							<img src="assets/figures/mdp-1.png"></img>
