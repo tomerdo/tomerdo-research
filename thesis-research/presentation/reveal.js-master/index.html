@@ -464,6 +464,9 @@
 				<section>
 					<section>
 						Related Work
+						<aside class="notes">
+
+						</aside>
 					</section>
 					<section>
 						<h2>agentmodels</h2>
@@ -479,7 +482,44 @@
 						</aside>
 					</section>
 					<section>
-						Seaman
+						<h2>Nested Reasoning About Autonomous Agents Using Probabilistic Programs</h2>
+						<img src="assets/figures/seaman.png"></img>
+						<aside class="notes">
+							Approach a pursuit-evasion problem, in the form of
+							a chaser (sheriff) and a runner (thief) moving through city
+							streets, with tools of probabilistic programming and planning as
+							inference. A simpler but similar setting can be expressed using
+							Bob and Alice with adversarial preferences with respect to
+							meeting each other: Bob (the chaser) wants to meet Alice, but
+							Alice (the runner) wants to avoid Bob.
+							formulates the inference problem in terms of the
+							Boltzmann distribution of trajectories based on the travel time
+							of the runner, as well as the time the runner seen by the
+							chaser, positive for the chaser (wants to see the runner as long
+							as possible) and negative for the runner (wants to avoid being
+							seen by the chaser as much as possible).  However, looking
+							for efficient inference, this work proposes to replace nested
+							conditioning by conditioning of each level of reasoning on a
+							single sample from the previous level. This is, again,
+							conditioning on the future as though the future were known, and
+							leads to wrong results.
+
+							The problem can be hard to realize on the complicated setting
+							explored in the work, but becomes obvious on the example of Bob
+							and Alice. Consider, for simplicity, the setting in which Alice
+							has equal preferences regarding the bars and attributes reward 1
+							to avoiding Bob and 0 to meeting him. Bob chooses the first bar
+							in 55\% of cases; Alice employs a single level of epistemic
+							reasoning. It is easy to see that the optimal policy for Alice
+							is to always go to the second bar for the expected reward or 0.55.
+							However, the mode of the posterior inferred using the algorithm
+							in~\cite{SMW18} is for Alice to choose the second bar with
+							probability of 0.55, for the expected reward of 1! This is
+							because Alice's decision is (erroneously) conditioned on Bob's
+							anticipated choice of a bar, and hence Alice pretends that she
+							can always choose the other bar (which she cannot).
+
+						</aside>
 					</section>
 				</section>
 				<section>
