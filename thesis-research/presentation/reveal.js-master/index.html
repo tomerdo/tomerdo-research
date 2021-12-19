@@ -36,14 +36,27 @@
 					<section>
 						Background
 					</section>
-					<section>Probabilistic Programming</section>
+					<section>Probabilistic Programming
+					<aside class="notes">
+						The main idea of probabilistic programming is to take the power of programming languages (expressivity) and design probabilistic generative models and make a generic inference backend to infer those models.
+					The domain of probabilistic programming is the intersection between AI, programming languages, and statistical inference.
+					</aside>
+					</section>
 					<section>
 						<h3>Probabilistic Program Example</h3>
 						<img src="assets/figures/coin-psaudo.png"></img>
 						<aside class="notes">
+							We can look at two ways to "run" the generative model.
+							When you define a probalistic program you define a simulator
+							With some latent varibles, that starting with some prior.
+							This is how the data looks like, and you want to learn and update
+							the posterior given some evidence
 							We have here a simple example of probablistic program.
 							running forward - this sampling points of y
 							running infernce (backward) over observation - we compute the posterior of theta
+							P(\theta | Y).
+							and later we can use to sample from the posterior.
+							new y's maybe.
   						</aside>
 					</section>
 					<section>
@@ -67,6 +80,16 @@
 					</section>
 					<section>
 						Planning as Inference
+						<aside class="notes">
+							Planning, as a discipline of artificial intelligence, considers
+							agents acting in environments. The agents have
+							beliefs about their environments and perform actions which bring
+							them rewards (or regrets). AI planning is concerned with
+							algorithms that search for policies --- mappings from
+							agents' beliefs about the environment to their actions. In
+							planning-as-inference approach, policy search
+							is expressed as inference in an appropriate probabilistic model.
+						</aside>
 					</section>
 						<section>
 							<p>policy: $\pi_\theta(E)$</p>
@@ -76,14 +99,6 @@
 							<p class="fragment fade-in">$p(\theta\vert E) \propto p(\theta)\exp\left(\mathbb{E}\left[r \sim \pi_\theta(E)\right]\right)$</p>
 							<p class="fragment fade-in">Posterior inference on the above gives a distribution of policy parameters</p>
 							<aside class="notes">
-								Planning, as a discipline of artificial intelligence, considers
-								agents acting in environments. The agents have
-								beliefs about their environments and perform actions which bring
-								them rewards (or regrets). AI planning is concerned with
-								algorithms that search for policies --- mappings from
-								agents' beliefs about the environment to their actions. In
-								planning-as-inference approach, policy search
-								is expressed as inference in an appropriate probabilistic model.
 								A probabilistic program reifying the planning-as-inference
 								approach encodes instantiation of policy $\pi_\theta(E)$,
 								depending on latent parameters $\theta$, in environment $E$. In
@@ -104,7 +119,6 @@
 					<section>
 						<p>$p(x\vert y=y_0)$</p>
 						<p class="fragment fade-in">$p(x\vert y \sim D_0)$</p>
-						<p class="fragment fade-in">$(p(x, y), D)$</p>
 						<p class="fragment fade-in">The objective is to infer $p(x\vert y \sim D)$ the distribution of $x$ given $D$</p>
 						<p class="fragment fade-in">rather than an individual observation $y$</p>
 						<img src="assets/figures/stochastic-notation.png" class="fragment fade-in"></img>
@@ -112,24 +126,13 @@
 						<aside class="notes">
 							Stochastic conditioning extends
 							deterministic conditioning $p(x\vert y=y_0)$,
-							i.e.~conditioning on some random variable in our program $y$
+							i.e.conditioning on some random variable in our program $y$
 							taking on a particular value $y_0$, to conditioning $p(x\vert y
 							\sim D_0)$ on $y$ having the marginal distribution $D_0$.
-							A probabilistic model with stochastic conditioning is a tuple
-							$(p(x, y), D)$ where
-							\begin{itemize}
-							    \item $p(x, y)$ is the joint probability density of random
-							        variable $x$ and observation $y$,
-							    \item $D$  is the distribution from which observation $y$ is
-							        marginally sampled, and it has a density $q(y)$.
-							\end{itemize}
 
 							Unlike in the usual setting, the objective is to infer $p(x\vert y
-							\sim D)$, the distribution of $x$ given \textit{distribution}
-							$D$, rather than an individual observation $y$.  To accomplish
-							this objective, one must be able to compute $p(x, y \sim
-							D)$, a possibly unnormalized density on $x$ and distribution
-							$D$.
+							\sim D)$, the distribution of $x$ given distribution
+							$D$, rather than an individual observation $y$.
 							By convention, in statistical notation $y \sim D$ is placed
 							above a rule to denote that distribution $D$ is observed through
 							$y$ and is otherwise unknown to the model
@@ -180,21 +183,58 @@
 						</blockquote>
 						<aside class="notes">
 							classic example from game of theory research,
-							introduced in the context of probablistic programming
-							first in: Modeling Agents with Probabilistic Programs.
-							We will talk about it later.
+							Many different settings can be considered based on this story.
+							Bob and Alice may know each other's preferences with respect to
+							the bars and to the meeting with the other person, be uncertain
+							about the preferences, or hold wrong beliefs about the
+							preferences.  Their preferences may be collaborative or adversarial (Bob wants to meet Alice, but Alice avoids.
+							Bob may consider Alice's deliberation about Bob's
+							behavior, and vice versa, recursively.
+							It turns out that all these scenarios can be represented by a single model of
+							interacting agents.  However, doing this properly, from the
+							viewpoint of both specification and inference, requires certain
+							care.
   					 </aside>
 					</section>
 					<section>
 						<img src="assets/figures/bob-alice-intro-1.png"></img>
 						<aside class="notes">
-							Let's try to model it abstractly
+							Let's try to model it abstractly,
+							Details of conditioning and inference set aside, the overall
+							structure of the model is more or less obvious. There are two
+							thought and action models, for each of the agents. The
+							generative models have the same structure, but apparently
+							different parameters.
+							Explain line by line.
+							$D_s$ is intentionally kept vague.
+							Interaction between Bob and Alice is simulated by running
+							Inference in each of the models and then by performing an
+							action following (deterministically or stochastically) from
+							inference results. In an episodic game, the model is conditioned
+							on $\theta'$ and $\mathbb{I}_s$ for each agent, and the distributions of
+							agents' actions are inferred. Then the move is simulated by
+							drawing a sample from each of the posterior action
+							distributions
   					 </aside>
 					</section>
 					<section>
 						<img src="assets/figures/bob-alice-intro-epsiode-infer.png"></img>
 						<aside class="notes">
-							Here we model one episode unrolling
+						Since in a single episode there is no earlier evidence about the other agent's preferences, $\theta'$ is taken to be
+						known, and $\tau'$ has no effect.
+						Bob and Alice can even engage in a multiround game, in which
+						each agent updates his or her own beliefs about the other
+						agent's preferences based on the observed actions. To update an
+						agent's belief about the other agent's preferences, the model is
+						conditioned on an observed action $a$ and success $\mathbb{I}_s$, and
+						$\theta'$ is inferred, and is later used to choose an action in the
+						next round.
+
+						A few ways to specify the agents and perform inference were
+						proposed. We believe that some of them are wrong,  and others
+						can be streamlined. In what follows, we propose a purely
+						Bayesian generative approach to reasoning about future in
+						multi-agent environments.
   					 </aside>
 					</section>
 				</section>
@@ -271,15 +311,72 @@
 							<p class="fragment fade-in">$u_{Alice}^2 = r_{Alice}^2 + (1 - \hat p_{Bob}^1)r_{Alice}^m$</p>
 							<p class="fragment fade-in">$\Pr(\mathbb{I}_{Alice}^1) = \frac {\exp(u_{Alice}^1)} {\exp(u_{Alice}^1) + \exp(u_{Alice}^2)}$</p>
 							<!-- img src="assets/figures/determinisic-1.png"></img -->
+							<aside class="notes">
+								A softmax agent chooses actions stochastically, with probabilities proportional
+								to the exponentiated action utilities, We will talk about
+								why this is a good choice to use the softmax in the next chapter
+							</aside>
 						</section>
 				</section>
 				<section>
 					<section>
-					Stochastic Preferences
+					Probabilistic Preferences
+					<aside class="notes">
+						Previous section shows how stochastic behavior can be
+						modeled using a softmax agent exhibiting an `approximately
+						optimal' behavior, that is, selecting actions with
+						log-probabilities proportional to their expected utilities.
+						However, one may wonder what would be the optimal behavior if
+						the behavior we model with softmax is only `approximately
+						optimal' and hence suboptimal. We believe that treating
+						stochastic behavior as suboptimal because it does not
+						maximize the utility based on rewards we ascribe is
+						contradictory. When Alice chooses the first bar 55\% of
+						time and the second bar 45\% of time it is not because
+						she cannot choose better (that is, always the first bar). It is
+						her choice to sometimes go for a drink and have a lot of people
+						around and loud music, sometimes go for a drink and have fewer
+						people around and read a book without disturbing music in the
+						background. Bob, in addition to going to one of the two bars to
+						enjoy some drinks and see Alice, most probably eats breakfast
+						every morning.  Let us speculate that sometimes Bob prefers
+						scrambled eggs and sometimes porridge, randomly with probability
+						about 0.6 towards scrambled eggs. However, if Bob had to eat
+						scrambled eggs every morning and to give up on porridge entirely,
+						because this is our perception of the optimal behavior based on
+						rewards we ourselves introduced, rather arbitrarily, he would
+						most probably be less happy about his diet.
+
+						Assuming that there is no shortage of either oat or eggs, and
+						that Bob's income essentially frees him from financial
+						considerations in choosing one meal over the other, we should
+						perceive Bob's behavior with respect to either the breakfast
+						menu or the choice of a bar as optimal, and suggest means for
+						specifying optimal stochastic behaviors and reasoning about
+						them. One option is to postulate that softmax action selection
+						is indeed optimal.  However, this option involves an assumption
+						that softmax is a law of nature, and that there are latent
+						rewards which we can only observe as choice probabilities
+						through the softmax distribution. We believe that a separate
+						theory of softmax-optimal stochastic behavior is unnecessary,
+						and one can reason about agent behavior, both in single-agent
+						and multi-agent setting, using Bayesian probabilities only. The
+						rest of this section is an elaboration of this attitude.
+					</aside>
 					</section>
 					<section>
 						<img src="assets/figures/stochastic-1.png"></img>
 						<aside class="notes">
+							Let us return to the fable. According to the fable, the optimal
+							probability of Alice's choice with respect to the bars is given
+							(observed with high confidence or proclaimed by an oracle). To
+							complete the formulation, it remains to specify the optimal
+							probability of Alice to meet Bob. The question is: the probability of
+							what event reflects the preference?  It turns out that we need
+							to specify the probability of Alice choosing to visit the bar
+							where Bob is heading, provided  Alice knows Bob's plans and
+							would otherwise visit either bar with equal probability. Indeed,
+							this results in the following generative model.----
 							The model, in a superficially confusing way, generates Bob’s location I1
 							Bob
 							based on Alice’s desire to meet Bob. However, the confusion can be resolved
@@ -306,6 +403,11 @@
 					</section>
 					<section>
 							<img src="assets/figures/stochastic-3.png"></img>
+							<aside class="notes">
+								A connection between probabilistic preferences and deterministic
+								preferences along with the Boltzmann distribution is revealed by
+								writing down the analytical form of the probability distribution
+							</aside>
 					</section>
 					<section>
 						Planning as inference with probabilistic preferences can be encoded as a Bayesian
@@ -313,6 +415,8 @@
 						rewards.
 						<aside class="notes">
 							A direct corollary from (5.1) and (5.2) is that Planning as inference with probabilistic preferences
+							can be encoded as a Bayesian generative model using probabilities only, without resort to
+							rewards
 						</aside>
 					</section>
 					<section>
@@ -327,6 +431,13 @@
 							maximum a posteriori approximations of the
 							distributions of optimal behaviors, which are inherently
 							stochastic.
+							may raise a question of the role of reward maximization in cases where
+							rewards are given, such as games or trade. However, rewards in
+							games or trade are themselves invented by humans because of
+							difficulty apprehending probabilistic preferences. Once the
+							essence of probabilistic preferences is understood, settings in
+							which reward maximization is the optimal strategy lose their
+							importance as general models and become mere edge cases.
 						</aside>
 					</section>
 				</section>
@@ -334,35 +445,176 @@
 					<section>
 						Reinformencement Learning as Infernce
 						<aside class="notes">
-							After we have seen a formalization let's try to connect it to the bigger picutre
+							After we have seen a formalization let's try to connect it to the bigger picutre,
+							Let us map certain well-known research problems of reinforcement
+							learning to Bayesian inference. Some of the problems are perceived as
+							having paradoxical properties, however, their paradoxicality is
+							resolved by reformulation in terms of probabilities, without
+							recourse to artificially introduced rewards and utilities.
+
+							In the rest of the section, we provide an alternative, purely
+							probabilistic, definition of the model known as Markov decision
+							process (including the `partially observable' variant). Then, we
+							formalize the tasks of planning and apprenticeship learning.
+							There is an ambiguity in reinforcement learning literature with
+							regard to notions of reinforcement learning, inverse
+							reinforcement learning, apprenticeship learning, and planning. In
+							this work, we chose to use the term planning to denote
+							inferring the (optimal or rational) agent behavior given the
+							model, and apprenticeship learning to denote inferring
+							the model parameters given observed agent behavior.  Note that
+							the notion of 'optimal' behavior is different here from the
+							behavior considered optimal in traditional reinforcement
+							learning literature: rather than corresponding to the mode of
+							the posterior distribution of behaviors specified by the model,
+							it is the posterior distribution itself.
 						</aside>
 					</section>
 					<section>
 							<img src="assets/figures/mdp-1.png"></img>
+							<aside class="notes">
+								The above definition of MDP provides a fertile ground  for
+								reinforcement learning research, however, it mixes the agent, the
+								environment, the goal of the agent in the environment, and the
+								issues of practical computability, all in a single definition. In
+								particular, the space of states $S$ and actions $A$ describe the
+								agent (where it is and what it can do), the transition
+								probabilities $T$ is a property of the environment, and the reward
+								function $R$ defines the goal of the agent in the environment.
+								The discount factor $\gamma$ modifies the environment in
+								such a way that the length of the episode trajectory is
+								geometrically distributed, through implicitly modifying $S$ and
+								$T$ such that $S$ includes a terminal state and the transition
+								matrix includes transition from any state to the terminal state with
+								probability $1-\gamma$ --- and that ensures that the policy
+								value is bounded. The geometrical distribution is not the only
+								and not necessarily the most justified choice for trajectory
+								length distribution. The Poisson or the negative-binomial
+								distribution may, for example, be used instead when appropriate
+								(for example, the negative-binomial distribution is a natural
+								model for an agent repeatedly performing an action, with a
+								certain number of failed attempts allowed). However,
+								conventional MDP does not provide for such flexibility.
+
+								Bayesian modeling allows instead to define a Markov decision
+								process such that the agent, the environment, the agent
+								preferences, and the computability issues are explicit and
+								clearly separated. Before we proceed to our definition, let us draw
+								the connection between the fable of Bob and Alice and a single-agent
+								decision process. It is relatively easy to see how
+								the case of two agents can be extended to a greater number of
+								agents. However, a two-agent setup can as well be used naturally
+								for modeling a single agent acting in a stochastic environment
+								--- by representing the stochasticity of the environment as the
+								other, neutral (neither adversarial nor collaborative) agent,
+								acting regardless of the state of the first agent. We will stick
+								to this paradigm here and define a 2-agent Markov
+								decision process, with a single-agent Markov decision process as
+								a special case of interaction of two agents in an environment
+								with the other agent being neutral.
+
+								An MDP invokes stochastic agents represented by their models $m_1$ and $m_2$
+							</aside>
 					</section>
 					<section>
 							<img src="assets/figures/mdp-2.png"></img>
+							<aside class="notes">
+								Action $a$ applied to the state is a composition $a_1 \circ a_2$
+								of actions $a_1$ and $a_2$ chosen by each agent. How exactly
+								the composition is accomplished is specific to a particular
+								MDP instance. An MDP episode terminates when the terminal state
+								$\bot$ is reached
+							</aside>
 					</section>
 					<section>
 							<img src="assets/figures/mdp-3.png"></img>
 							<aside class="notes">
-									D_a - prior distribution over actions
-									D_b - agent's belief about the distributiion of other agent's actions in state given that action a_a is taken
-									D_s - distribtuion of states from state s that agent a desired to pass
+								an agent model represents reasoning behind action
+								selection by the agent. Both agent models have the same
+								structure, and define each agent's preferences and beliefs about
+								the other agent.
+								The rule between the first line and the rest of the
+								model means that the model is stochastically conditioned on the
+								distribution of $a_b$ (see
+								Section~\ref{sec:stochastic-conditioning}). The last line of the
+								model states that unless $s'$ is the terminal state, the model
+								is recursively conditioned in state $s'$.
+
+								Note that $\widehat {D_b}$  depends on both $s$ and $a_a$ in
+								Definition~\ref{dfn:agent}. This
+								addresses a sequential setting, in which agent $b$ chooses an
+								action after observing the action of agent $a$. In a
+								simultaneous setting, neither agent knows the other agent's
+								choice, and the choice of an action depends on the current state
+								only (formally, $\bot$ is passed as the second argument of
+								$\widehat {D_b}$).
+								Conventional planning consists in finding a policy that
+								maximizes the expected total (discounted) reward. In the
+								probabilistic formulation of Section~\ref{sec:mdp}, a policy of
+								an agent that maximizes the expected total reward would correspond to
+								marginal, with respect to the other agent,  maximum a
+								posteriori (MMAP) trajectories. Obviously, MMAP trajectories
+								are just an approximation of the behavior specified by the
+								agent, reasonably good if the distribution is sharply peaked
+								around the MMAP, but can be arbitrarily bad in general, as the
+								eggs or porridge for breakfast dilemma.
+								The rational behavior of the agent is specified by the agent
+								model, and is in general stochastic (a
+								distribution of actions in each state). From the Bayesian
+								probabilistic standpoint, planning is just instantiation of the
+								distribution specified by the agent model. Common inference
+								algorithms, such as Markov chain Monte Carlo methods or
+								variational inference, can be used for representing or
+								approximating the policy --- the posterior distribution
+								of agent's actions.
+
+								In the case of a neutral second agent, such that representing the
+								environment noise, the posterior inference is straightforward.
+								However, if the agents are either collaborative or
+								adversarial, epistemic reasoning must be taken into account,
+								resulting in potentially unbounded nesting of inference.
 							</aside>
 					</section>
 					<section>
 							<img src="assets/figures/mdp-am.png"></img>
 							<aside class="notes">
-								Apprenticeship learning [AN04] is concerned with a situation in which
-								the agent preferences are not given explicitly, however, there are observed
-								MDP trajectories, from which the preferences can be inferred.
+								Apprenticeship learning (Inverse RL) is concerned with a
+								situation in which the agent preferences are not given
+								explicitly  however, there are observed MDP trajectories, from
+								which the preferences can be inferred Within the Bayesian probabilistic framework, apprenticeship
+								learning reduces to just swapping some latent and observed
+								variables in the agent. Agent preferences
+								are specified by $D_s$. Inference on essentially the same model
+								, with a slight modification that $D_s$ is a
+								random variable drawn from a prior, conditioned on MDP trajectories.
+								actions are observed rather than drawn here.
 							</aside>
 					</section>
 				</section>
 				<section>
 					<section>
 						Empirical Evaluation
+						<aside class="notes">
+							We illustrate reasoning about future with probabilistic
+							preferences using implementations of the fable of Bob and Alice
+							and of the sailing problem.
+							We implemented the model and inference in Gen.
+							In the experiments below, we show results obtained both by
+							Monte-Carlo inference on the Gen model and using the analytical
+							model, both to demonstrate that the Gen model, more complicated
+							but generalizable to a wide range of problems, returns
+							essentially the same results as the analytical model and to help
+							the reader discern easily between actual trends and
+							approximation errors in inference outcomes. We consider several
+							cases of Bob's and Alice's preferences. We run Monte Carlo
+							inference for 5000 iterations with 10\% burn-in. Each plot shows
+							the posterior choice distributions of each of the agents for a
+							range of deliberation depths, with depth 0 corresponding to the prior
+							behavior, depth 1 to the posterior using the prior behavior of
+							the other agent, and so on.
+							One of the challanges is to keep the nested sampling efficient.
+							We did it using memoization (Dynamic Programming on each level)
+						</aside>
 					</section>
 					<section>
 						<h2>Bob and Alice Want to Meet - perfer same bar</h2>
@@ -375,12 +627,36 @@
 					<section>
 						<h2>Bob and Alice Want to Meet - prefer different bars</h2>
 						<img src="assets/figures/different-bars-1.png"></img>
+						<aside class="notes">
+							addresses contradictory
+							preferences with respect to bars --- Alice strongly prefers the
+							first bar, while Bob slightly prefers the second bar. Since they
+							still want to meet, they both choose, when the deliberation
+							depth is sufficient, the first bar more often than the second
+							one.
+						</aside>
 					</section>
 					<section>
 						<h2>Bob chases Alice, Alice Avoids Bob</h2>
 						<div class="r-stack">
 							<img src="assets/figures/bob-chases-1.png" class="fragment fade-in-then-out"></img>
 							<img src="assets/figures/bob-chases-2.png" class="fragment fade-in-then-out"></img>
+							<aside class="notes">
+								Another setting is an instance of the pursuit-evasion game: Bob
+								chases Alice, but Alice avoids Bob. The choice distributions of
+								both agents depend on how strong their preferences to meet, or
+								to avoid the meeting, are.
+								Figure~\ref{fig:ba-0.55-0.25-0.55-0.75}  shows inference results
+								for the case where Bob's and Alice's feelings are opposite but
+								mild. As Bob and Alice deliberate deeper and deeper, their
+								choice distributions eventually converge to stable limits.
+								However, if Bob's and Alice's feelings are opposite and strong
+								(Figure~\ref{fig:ba-0.55-0.1-0.55-0.9}),
+								the agents overthink and act impulsively --- as the deliberation
+								depth increases, the choice distributions of both agents
+								alternate between going to the first or to the second bar with
+								increasing probability.
+							</aside>
 						</div>
 					</section>
 					<section>
@@ -388,11 +664,57 @@
 						<div class="r-stack">
 							<img src="assets/figures/both-avoid-1.png" class="fragment fade-in-then-out"></img>
 							<img src="assets/figures/both-avoid-2.png" class="fragment fade-in-then-out"></img>
+							<aside class="notes">
+								Further on, we explore the case when Bob and Alice avoid each
+								other, that is, both of them would rather go to the pub where
+								they are unlikely to meet the other person. When the preference
+								towards avoiding is mild (Figure~\ref{fig:ba-0.55-0.25}), Bob
+								and Alice, with sufficient deliberation depth, approach their
+								prior preferences, that is they both go to the first bar with
+								the probability approaching $p_{Alice}^1 = p_{Bob}^1$. Indeed,
+								rationally this the best they can do to minimize their chances
+								to meet each other without coordination, while still respecting
+								their preference of the first bar.
+								However, when Bob's and Alice's mutual despisal is too strong
+							(Figure~\ref{fig:ba-0.55-0.05}), mutual epistemic reasoning does
+							a poor job --- Bob and Alice switch their increasingly strong
+							posterior preferences between the first and the second bar with
+							each level of deliberation depth, similarly to the case of
+							strong feelings in pursuit-evasion situation. One may argue that
+							these outcomes are algorithmically anomalous, or `irrational';
+							however, they may be also interpreted as a demonstration that
+							rational behavior is not unconditionally stable, and cannot be
+							guaranteed for arbitrary combinations of preferences.
+							</aside>
 						</div>
 					</section>
 					<section>
 						<h2>Alice learns Bob's preferences</h2>
 						<img src="assets/figures/bob-alice-learned.png"></img>
+						<aside class="notes">
+							Finally, let us see how Alice can find out whether Bob wants to
+							meet her by observing Bob's behavior. We use the same model of
+							Alice for inference, but instead of conditioning the model on
+							Bob's preferences, we condition the model on the history of
+							Bob's choices and infer Bob's preference (log-odds) of meeting
+							Alice. We condition the model on three Bob's choices in a row,
+							and compare Alice's conclusions for two cases:
+
+							-Bob chose the first bar three times in a row;
+							- Bob chose the second bar three times in a row.
+
+							To visualize the results, we draw 100 samples from the posterior
+							distribution of the probability with that Bob would choose to
+							meet Alice everything else being equal.
+							Figure~\ref{fig:ba-multiround} shows a two-dimensional scatter
+							plot where each direction is the marginal distribution of
+							\textit{log-odds} of Bob willing to meet Alice. Indeed, 96 out
+							of 100 points are below the diagonal, meaning that Alice can be
+							very confident that Bob is willing to meet her if she observes
+							Bob in the first bar 3 times in a row. However, if Bob shows up
+							three times in a row in the second bar, Alice should conclude
+							that Bob is avoiding her
+						</aside>
 					</section>
 					<section>
 						The Sailing Problem
@@ -465,20 +787,75 @@
 					<section>
 						Related Work
 						<aside class="notes">
-
+							We will now see similar works, with mistakes
+							on modelling. We started from their approach and found
+							the mistakes, and fixed them using stochastic condtioning.
+							Statistical models are most suited for reasoning about the
+							present. Reasoning about the past or, in particular, the future
+							is counterintuitive and hard to get right. Multi-agent planning as
+							inference, exemplified by the fable about Bob and Alice,
+							presents logical and statistical traps which are easy to fall
+							into, often without even noticing. One common mistake is
+							conditioning on a future event as on a present observation,
+							which is related to the Newcomb's paradox; however, there are
+							also other mistakes.  Incorrect treatments of the problem in the
+							literature, presented in the rest of this section,  accentuate
+							the need for a probabilistically sound Bayesian approach to
+							planning as inference, the subject of this work.
 						</aside>
 					</section>
 					<section>
 						<h2>agentmodels</h2>
 						<img src="assets/figures/agent-models-1.png"></img>
 						<aside class="notes">
-							Alice’s deliberation is
-							irrational. If Alice wants to meet Bob and knows that Bob chooses the first
-							bar more often, no matter to which extent, she must always choose the first
-							bar! Moreover, the model’s recommendation to choose the first bar with
-							the probability that she meets Bob in the first bar if she does not choose the
-							first bar more often than usual sounds at least surprising and suggests that
-							the model is wrong
+							Consider, for simplicity, one
+							particular variant of the fable,
+							in which Bob and Alice both generally choose the first bar with
+							probability 55\% and the second bar with probability 45\% and want to
+							meet. The agent model (of Alice, just
+							to be concrete) combines the prior on Alice's behavior, which
+							is the Bernoulli distribution $\mathbb{I}_{Alice}^1 \sim
+							\mathrm{Bernoulli}(p_{Alice}^1=0.55)$, and the conditioning on Alice meeting
+							Bob. Alice does not know Bob's location, but can reason about
+							the distribution of Bob's choices $\mathrm{Bernoulli}(\hat
+							p_{Bob}^1)$. $\hat p_{Bob}^1$ coincides with Bob's prior
+							$p_{Bob}^1=0.55$ in the simplest case, but can be also
+							influenced by Alice's consideration of Bob's reasoning about
+							Alice, which is a case of epistemic reasoning
+							The posterior probability of Alice going to the first bar
+							according to
+							is $\frac {0.55\hat p_{Bob}^1} {0.55\hat p_{Bob}^1 + 0.45(1-\hat p_{Bob}^1)}$. If
+							$\hat p_{Bob}^1 > 0.5$, that is, if Alice maintains that Bob prefers
+							the first bar, Alice will go to the first bar more often if she
+							wants to meet Bob, with the probability in which it
+							would meet Bob in the first bar if she would not adjust her
+							behavior. It may seem (and it is indeed the course of reasoning
+							in) that Alice makes a better
+							choice thinking about Bob, and the more she thinks about Bob
+							(willing to meet Alice and taking into consideration that Alice
+							is willing to meet Bob, and so on) the higher is the probability
+							of Alice to choose the first bar.
+
+							However, on slightly more thorough consideration, Alice's
+							deliberation is irrational. If Alice wants to meet Bob and knows
+							that Bob chooses the first bar more often, no matter to which
+							extent, she must always choose the first bar! Moreover, the
+							model's recommendation to choose the first bar with the
+							probability that she meets Bob in the first bar if she does
+							not choose the first bar more often than usual sounds
+							at least surprising and suggests that the model is wrong.
+
+							Indeed, the above model suffers from two problems. First, it
+							conditions on the future as though it were the present, that is
+							as though Alice knew, in each case, Bob's choices. Second, the
+							agents' preferences with respect to the choice of a bar and to
+							meeting each other are expressed using different languages.
+							Alice chooses the first or the second bar with a non-trivial
+							probability, but wants to meet Bob non-probabilisticall}.
+							Moreover, it is not immediately obvious whether and how a
+							probability can be ascribed to a desire (rather than a future
+							event). Mixing two incompatible formulations causes confusion
+							and gives self-contradictory results.
 						</aside>
 					</section>
 					<section>
@@ -545,7 +922,6 @@
 						</aside>
 					</section>
 			</section>
-
 			</div>
 		</div>
 
