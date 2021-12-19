@@ -39,7 +39,8 @@
 					<section>Probabilistic Programming
 					<aside class="notes">
 						The main idea of probabilistic programming is to take the power of programming languages (expressivity) and design probabilistic generative models and make a generic inference backend to infer those models.
-					The domain of probabilistic programming is the intersection between AI, programming languages, and statistical inference.
+						The model should be straightforward and theoraticlly someone with domain knowledge only (without infernce knowledge) could describe it.
+						The domain of probabilistic programming is the intersection between AI, programming languages, and statistical inference.
 					</aside>
 					</section>
 					<section>
@@ -73,10 +74,16 @@
 	  						</aside>
 					</section>
 					<section>
-							<img src="assets/figures/posterior-update-animation.gif"></img>
+							<img src="assets/figures/bernoulli-update.gif"></img>
+							<aside class="notes">
+								Simple example of posterior computating , can also done analytically
+							</aside>
 					</section>
 					<section>
-							<img src="assets/figures/bernoulli-update.gif"></img>
+							<img src="assets/figures/posterior-update-animation.gif"></img>
+							<aside class="notes">
+								More realistic example, the infernce is done using MCMC methods.
+							</aside>
 					</section>
 					<section>
 						Planning as Inference
@@ -289,9 +296,7 @@
 						<p class="fragment fade-in">$p_{Alice}^1 = 0.55$</p>
 						<p class="fragment fade-in">$r_1 \approx r_2 + 0.2$</p>
 					<aside class="notes">
-						$r_{Alice}^1$ and $r_{Alice}^2$ such that $r_{Alice}^1 =
-						r_{Alice}^2 + \log\left(\frac {p_{Alice}^1} {1 -
-						p_{Alice}^1}\right)$. Concretely, for $p_{Alice}^1 = 0.55$ we
+						Concretely, for $p_{Alice}^1 = 0.55$ we
 						obtain $r_1 \approx r_2 + 0.2$; only the difference between
 						rewards matters in a softmax agent, rather than their absolute
 						values.
@@ -301,9 +306,6 @@
 						able to model it. To reconcile rewards and stochastic action
 						choice, the softmax agent was proposed and is broadly used for
 						modeling `approximately optimal agents'.
-						A softmax agent
-						chooses actions stochastically, with probabilities proportional
-						to the exponentiated action utilities.
 					</aside>
 					</section>
 						<section>
@@ -731,24 +733,29 @@
 								costs: into, up, cross, down, and away. The cost of sailing into the wind is
 								prohibitively high, upwind is the highest feasible, and away from the wind
 								is the lowest. The side of the boat off which the sail is hanging is called the
+								tack, either port or starboard.
+								When the angle between the boat and the wind changes sign, the
+								sail must be \textit{tacked} to the opposite tack,
+								which incurs an additional tacking delay cost.
 							</aside>
 
 					</section>
 					<section>
 							<img src="assets/figures/sailing-params.png"></img>
+							<img src="assets/figures/sailing-formula.png" class="fragment fade-in"></img>
 							<aside class="notes">
-							For any given lake size, there is a non-parametric stochastic policy that
-							tabulates the distribution of legs for each combination of location, tack,
-							and wind. However, such policy does not generalize well — if the lake
-							area increases, due to a particularly rainy year for example, the policy is
-							not applicable to the new parts of the lake. In this case study, we infer
-							instead a generalizable parametric policy balancing between hesitation in
-							anticipation for a better wind and rushing to the goal at any cost. The
-							policy chooses a leg with the log-probability equal to the euclidian distance
-							between the position after the leg and the goal, multiplied by the policy
-							parameter q (the leg directed into the wind is excluded from choices). The
-							greater the q, the higher is the probability that a leg bringing the boat closer
-							to the goal will be chosen:
+								For any given lake size, there is a non-parametric stochastic policy that
+								tabulates the distribution of legs for each combination of location, tack,
+								and wind. However, such policy does not generalize well — if the lake
+								area increases, due to a particularly rainy year for example, the policy is
+								not applicable to the new parts of the lake. In this case study, we infer
+								instead a generalizable parametric policy balancing between hesitation in
+								anticipation for a better wind and rushing to the goal at any cost. The
+								policy chooses a leg with the log-probability equal to the euclidian distance
+								between the position after the leg and the goal, multiplied by the policy
+								parameter theta (the leg directed into the wind is excluded from choices). The
+								greater the theta, the higher is the probability that a leg bringing the boat closer
+								to the goal will be chosen:
 						</aside>
 					</section>
 					<section>
@@ -910,12 +917,13 @@
 								</ul>
 						</p>
 						<img src="assets/figures/newcomb-paradox.png"></img>
+						<aside class="notes">
+							The player does not know what the predictor predicted or what box B
+							 contains while making the choice.
+							 If a person truly knows the future, and that knowledge affects their actions, then events in the future will be causing effects in the past.
+						</aside>
 					</section>
-					<aside class="notes">
-						The player does not know what the predictor predicted or what box B
-						 contains while making the choice.
-						 If a person truly knows the future, and that knowledge affects their actions, then events in the future will be causing effects in the past.
-					</aside>
+
 				</section>
 				<section>
 					<section>
